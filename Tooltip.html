@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>兰波</title>
+    <style>
+        body{
+            margin: 30px 40px;
+            padding: 20px 20px;
+            background-color: brown;
+            font-family: Gabriola;
+            font-size: 23px;
+            color: khaki;
+            border: double 10px indianred;
+            border-radius: 20px;
+            -moz-border-radius: 20px;
+            -webkit-border-radius: 20px;
+            box-shadow: 0px 0px 5px 7px darkkhaki;
+            -moz-box-shadow: 0px 0px 5px 7px darkkhaki;
+            -webkit-box-shadow: 0px 0px 5px 7px darkkhaki;
+        }
+        h2{
+            color: burlywood;
+        }
+        .tooltip{
+            color: peru;
+        }
+        .tooltip-box{
+            display: block;
+            background-color: chocolate;
+            line-height: 1.5;
+            border: solid 1px maroon;
+            color: khaki;
+            padding: 10px;
+            font-size: 17px;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="demo">
+    <h2>诗人<a class="tooltip" id="tool1">兰波</a></h2>
+    <p>让·尼古拉·阿蒂尔·兰波（法语：Jean Nicolas Arthur Rimbaud，1854年10月20日——1891年11月10日），或译阿尔图尔·兰波、韩波、林包德，19世纪<a class="tooltip" id="tool2">法国</a>著名诗人，早期<a class="tooltip" id="tool3">象征主义诗歌</a>的代表人物，<a class="tooltip" id="tool4">超现实主义诗歌</a>的鼻祖。</p>
+
+    <p>兰波长着一张冷峻、忧愁的脸。犀利的眼神盯着虚伪的世界，仿佛一把利剑想要戳破世界虚伪的表层。1854年生于法国夏尔维勒的他，他身上更为凸显的是诗人纯粹的野性状态，就像诗人<a class="tooltip" id="tool5">魏尔伦</a>赞誉他为“羁风之人”一样，兰波这位“通灵者”更像是来自灵界，并不承担俗世意义的任何使命。无论生存抑或写作的状态，他的身心都笼罩着纯真的幻觉。他盼望着出发，醉舟可以托着他漂流天涯，在迷狂的风暴中接受波浪澎湃的洗礼，一如“诗人应当是一名盗火者。”</p>
+
+
+    <script>
+
+        function addEvent(element,event,callbackFunction) {
+            if(element.addEventListener){
+                element.addEventListener(event,callbackFunction,false);
+            }else if (element.attachEvent){
+                element.attachEvent('on'+event,callbackFunction)
+            }
+        }
+
+        var className = "tooltip-box";
+        var isIE = navigator.userAgent.indexOf("MSIE")>-1;
+        var getEl = function (id) {
+            return document.getElementById(id);
+        };
+        var demo = getEl("demo");
+        //obj：Tooltip提示框超级链接
+        //id：Tooltip提示框id
+        //html：Tooltip提示框html
+        //width：Tooltip提示框宽度
+        //height :Tooltip提示框高度
+        function showTooltip(obj,id,html,width,height) {
+            if(getEl(id)==null){
+                //create
+                var toolTipBox;
+                toolTipBox = document.createElement("div");
+                toolTipBox.className = className;
+                toolTipBox.id = id;
+                toolTipBox.innerHTML = html;
+                obj.appendChild(toolTipBox);
+
+                toolTipBox.style.width = width?width+"px":"auto";
+                toolTipBox.style.height=height?height+"px":"auto";
+
+                if(width && isIE){
+                    toolTipBox.style.width = toolTipBox.offsetWidth;
+                }
+                toolTipBox.style.position = "absolute";
+                toolTipBox.style.display = "block";
+
+                var left = obj.offsetLeft;
+                var top = obj.offsetTop+30;
+
+                //left 防止tooltip提示框超出浏览器
+                if(left +toolTipBox.offsetWidth > document.body.clientWidth){
+                    var demoleft = demo.offsetLeft;
+                    left = document.body.clientWidth - toolTipBox.offsetWidth - demoleft;
+                }
+
+                toolTipBox.style.left = left+"px";
+                toolTipBox.style.top = top+"px";
+
+                addEvent(obj,"mouseleave", function () {
+                    setTimeout(function () {
+                        getEl(id).style.display="none";
+                    },300);
+
+                });
+            }else{
+                //display
+                getEl(id).style.display="block";
+            }
+        }
+        
+        addEvent(demo,"mouseover",function (e) {
+            var event = e || window.event;
+            var target = event.target || event.srcElement;
+
+            if(target.className =="tooltip"){
+                var _html;
+                var _id;
+                var _width = 200;
+
+                switch(target.id){
+                    case "tool1":
+                        _id="t1";
+                        _html='<img src="Rimbaud.PNG">';
+                            _width=240;
+                        break;
+                    case "tool2":
+                        _id="t2";
+                        _html="France";
+                        break;
+                    case "tool3":
+                        _id="t3";
+                        _html="在欧美诗歌史上，象征主义是可以与浪漫主义分庭抗礼的广泛潮流，也是第一个现代流派。";
+                        break;
+                    case "tool4":
+                        _id="t4";
+                        _html='<iframe src="http://baike.baidu.com/link?url=RcqyFdIfjqhDqys2AWck29Mcu_E0iQXKbRPpLAwY4-kX43PZWXmDoAwpt2W5EGCjGzzKjTBjRQscYBoHy0Dgf_" width="480" height="300"></iframe>';
+                            _width=500;
+                        break;
+                    case "tool5":
+                        _id="t5";
+                        _html='<img src="Veriaine.png">';
+                        break;
+                }
+
+                showTooltip(target,_id,_html,_width);
+
+            }
+        });
+
+
+    </script>
+</div>
+</body>
+</html>
